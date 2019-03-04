@@ -5,3 +5,4 @@ authors = ["limpid-kzonix <balyszyn@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+iron = "0.6.0"
