@@ -1,10 +1,7 @@
 use std::fmt::Display;
 use std::fmt::Formatter;
 use std::fmt::Error;
-use iron::prelude::Iron;
-use iron::Request;
-use iron::IronResult;
-use iron::Response;
+
 
 fn main() {
     println!("Hello, world!");
@@ -15,12 +12,6 @@ fn main() {
     let addr: String = "127.0.0.1:8080".parse().unwrap_or("0.0.0.0:8080".to_owned());
     println!("{} ", addr.as_str());
 
-    fn hello_world(_: &mut Request) -> IronResult<Response> {
-        Ok(Response::with((iron::status::Ok, "Hello World!")))
-    }
-
-    let _server = Iron::new(hello_world).http(addr.clone()).unwrap();
-    println!("On {}", addr.to_owned());
 }
 
 struct Measurement {
