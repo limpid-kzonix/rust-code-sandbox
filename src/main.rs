@@ -10,23 +10,24 @@ fn main() {
     println!("Hello, world!");
     let measurement = Measurement { temperature: 36.6, scale: "Celsius" };
     println!("{}", measurement);
+    println!("{}", measurement.ext_fmt());
 
     let addr: String = "127.0.0.1:8080".parse().unwrap_or("0.0.0.0:8080".to_owned());
     println!("{} ", addr.as_str());
 
-    measurement.ext_fmt();
+
 
     fn hello_world(_: &mut Request) -> IronResult<Response> {
         Ok(Response::with((iron::status::Ok, "Hello World!")))
     }
 
-    let _server = Iron::new(hello_world).http("localhost:3000").unwrap();
-    println!("On 3000");
+    let _server = Iron::new(hello_world).http(addr.clone()).unwrap();
+    println!("On {}", addr.to_owned());
 }
 
 struct Measurement {
     temperature: f32,
-    scale: &'static str
+    scale: &'static str,
 }
 
 impl Display for Measurement {
@@ -41,14 +42,13 @@ impl Display for Measurement {
 }
 
 impl MyTrait for Measurement {
-    fn ext_fmt(&self) {
-        let string = format!("{} {}", self.temperature.to_string(), &self.scale);
-        println!("{}", string)
+    fn ext_fmt(&self) -> String {
+        return format!("{} {}", self.temperature.to_string(), &self.scale);
     }
 }
 
 trait MyTrait {
-    fn ext_fmt(&self);
+    fn ext_fmt(&self) -> String;
 }
 
 #[cfg(test)]
